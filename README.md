@@ -28,7 +28,6 @@ Usage:
 	
 Example:
     
-<<<<<<< HEAD
     python3 dag.py 5 7 --fill --save --out example.output --multiple mi^mi di@i%
     (example.output -> 55MB, 7116426 words)
 	
