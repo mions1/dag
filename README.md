@@ -28,7 +28,13 @@ Usage:
 	
 Example:
     
+<<<<<<< HEAD
+    python3 dag.py 5 7 --fill --save --out example.output --multiple mi^mi di@i%
+    (example.output -> 55MB, 7116426 words)
+
+=======
     python3 dag.py 6 10 --out list.txt --fill h@llo%
+>>>>>>> parent of 9a6e6d3... Add example.output file
 	
 Tips:
     
