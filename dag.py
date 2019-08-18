@@ -246,7 +246,6 @@ word_lists = []
 print_debug("Creating words lists...")
 for p in patterns:
     alias = map(p)
-    print(alias)
     print_debug("\tcreating "+p)
     word_lists.append(create(alias, p, just_save, file_name)) #create words list
     print_debug("\tdone")
