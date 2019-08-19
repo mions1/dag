@@ -214,7 +214,12 @@ def print_debug(string):
     if "--verbose" in sys.argv:
         print(string)
     pass
-    
+
+def print_progress(done, to_do, bar_size=10, done_symbol="#", to_do_symbol=".",caption="Progress: "):
+    perc = (done/to_do)*100
+    left = int((perc/100)*bar_size)
+    print(str(i)+"/"+str(to_do)+" "+done_symbol*left+(to_do_symbol*(bar_size-left))+" "+str(perc)+"%")
+
 params = dict() #dict with passed params (--out, --fill, etc)
 set_params(params)  #set passed params
 strings = []
@@ -245,9 +250,9 @@ else:
 word_lists = []
 print_debug("Creating words lists...")
 i = 1
-pat_len = str(len(patterns))
+
 for p in patterns:
-    print("Creating pattern "+str(i)+"/"+pat_len)
+    print_progress(i, len(patterns), caption="Creating pattern: ")
     i = i+1
     alias = map(p)
     print_debug("\tcreating "+p)
