@@ -244,7 +244,11 @@ else:
         patterns.append(p)
 word_lists = []
 print_debug("Creating words lists...")
+i = 1
+pat_len = str(len(patterns))
 for p in patterns:
+    print("Creating pattern "+str(i)+"/"+pat_len)
+    i = i+1
     alias = map(p)
     print_debug("\tcreating "+p)
     word_lists.append(create(alias, p, just_save, file_name)) #create words list
