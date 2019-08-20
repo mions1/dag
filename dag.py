@@ -1,5 +1,7 @@
 import sys
 
+from colorama import Fore, Style
+
 #--------------Helper text-------------------------
 help = "Create a dictionary passing a pattern with special symbols which will be replaced with relative char set.\n\n"
 help += "Symbols:\n"
@@ -217,7 +219,7 @@ def create_patterns(pattern, min, max, patterns):
 def print_debug(string):
     if "--verbose" in sys.argv:
         print(string)
-    else
+    else:
         pass
 
 """Print progress with a progress bar
@@ -233,7 +235,10 @@ Parameters:
 def print_progress(done, to_do, bar_size=10, done_symbol="#", to_do_symbol=".", caption="Progress: "):
     perc = (done/to_do)*100
     left = int((perc/100)*bar_size)
-    print(str(i)+"/"+str(to_do)+" "+done_symbol*left+(to_do_symbol*(bar_size-left))+" "+str(perc)+"%")
+    str_fract = Fore.GREEN+str(i)+Fore.YELLOW+"/"+Fore.RED+str(to_do)+Style.RESET_ALL
+    str_bar = Fore.GREEN+done_symbol*left+Fore.RED+str(to_do_symbol*(bar_size-left))+Style.RESET_ALL
+    str_perc = Fore.YELLOW+"{0:.2f}".format(perc)+"%"+Style.RESET_ALL
+    print(str_fract+" "+str_bar+" "+str_perc)
 
 
 #---------Setting up environment-----------------------------------------------
