@@ -235,10 +235,11 @@ Parameters:
 def print_progress(done, to_do, bar_size=10, done_symbol="#", to_do_symbol=".", caption="Progress: "):
     perc = (done/to_do)*100
     left = int((perc/100)*bar_size)
+    caption = Fore.YELLOW+caption+Style.RESET_ALL
     str_fract = Fore.GREEN+str(i)+Fore.YELLOW+"/"+Fore.RED+str(to_do)+Style.RESET_ALL
     str_bar = Fore.GREEN+done_symbol*left+Fore.RED+str(to_do_symbol*(bar_size-left))+Style.RESET_ALL
     str_perc = Fore.YELLOW+"{0:.2f}".format(perc)+"%"+Style.RESET_ALL
-    print(str_fract+" "+str_bar+" "+str_perc)
+    print(caption+str_fract+" "+str_bar+" "+str_perc)
 
 
 #---------Setting up environment-----------------------------------------------
@@ -276,7 +277,7 @@ print_debug("Creating words lists...")
 #----------Evaluate patters, create combinations changing symbol with char-set-
 i = 1
 for p in patterns:
-    print_progress(i, len(patterns), caption="Creating pattern: ")
+    print_progress(i, len(patterns), caption="")
     i = i+1
     alias = map(p)
     print_debug("\tcreating "+p)
