@@ -210,19 +210,35 @@ def create_patterns(pattern, min, max, patterns):
             tmp = shift(tmp, 'l')
             patterns.append(tmp)
 
+"""Print some information for tracing. Enable by "---verbose" option
+
+    string (str): String to print
+"""
 def print_debug(string):
     if "--verbose" in sys.argv:
         print(string)
-    pass
+    else
+        pass
 
-def print_progress(done, to_do, bar_size=10, done_symbol="#", to_do_symbol=".",caption="Progress: "):
+"""Print progress with a progress bar
+
+Parameters:
+    done (int): number of jobs already done
+    to_do (int): total number of jobs to do
+    bar_size (int): lenght of progress bar
+    don_symbol (str): Symbol to show for number of done jobs
+    to_do_symbol (str): Symbol to show for number of remaining jobs
+    caption (str): String to print before progress
+"""
+def print_progress(done, to_do, bar_size=10, done_symbol="#", to_do_symbol=".", caption="Progress: "):
     perc = (done/to_do)*100
     left = int((perc/100)*bar_size)
     print(str(i)+"/"+str(to_do)+" "+done_symbol*left+(to_do_symbol*(bar_size-left))+" "+str(perc)+"%")
 
+
+#---------Setting up environment-----------------------------------------------
 params = dict() #dict with passed params (--out, --fill, etc)
 set_params(params)  #set passed params
-strings = []
 
 min = int(params["min"]) #min size of words in words list
 max = int(params["max"]) #max size of words in words list
@@ -231,11 +247,12 @@ file_name = params["output_file"] #save passed output file name
 just_save = params["save"] #save directly on file, without save first on array
 fill = params["fill"] #fill left char with *
 
-#Just to erase file_name
+#Just to empty file_name
 if file_name:
-    f = open(file_name, "w")
-    f.close()
+    open(file_name, "w").close()
+#----------END-----------------------------------------------------------------
 
+#----------Fill pattern, create pattern adding '*' to reach sizes min,max------
 alias = dict() #dict of symbols and their position in pattern
 patterns = []
 if fill:
@@ -249,8 +266,10 @@ else:
         patterns.append(p)
 word_lists = []
 print_debug("Creating words lists...")
-i = 1
+#----------END-----------------------------------------------------------------
 
+#----------Evaluate patters, create combinations changing symbol with char-set-
+i = 1
 for p in patterns:
     print_progress(i, len(patterns), caption="Creating pattern: ")
     i = i+1
@@ -259,7 +278,9 @@ for p in patterns:
     word_lists.append(create(alias, p, just_save, file_name)) #create words list
     print_debug("\tdone")
 print_debug("Done!")
+#---------END------------------------------------------------------------------
 
+#----------Save on file--------------------------------------------------------
 #Save or just print words list
 if not just_save:
     if file_name:
@@ -270,3 +291,4 @@ if not file_name:
         for s in wl:
             f.write(s+"\n")
         print(s)
+#----------END-----------------------------------------------------------------
