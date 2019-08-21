@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.6.3" />
+<title>dag API documentation</title>
+<meta name="description" content="" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase;cursor:pointer}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>dag</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">import sys
+
+from colorama import Fore, Style
+
+#--------------Helper text-------------------------
+help = &#34;Create a dictionary passing a pattern with special symbols which will be replaced with relative char set.\n\n&#34;
+help += &#34;Symbols:\n&#34;
+help += &#34;\t@: alphabetic lower case\n&#34;
+help += &#34;\t,: alphabetic upper case\n&#34;
+help += &#34;\t%: digit\n&#34;
+help += &#34;\t^: symbol\n&#34;
+help += &#34;\t*: any\n\n&#34;
+help += &#34;Options:\n&#34;
+help += &#34;\t--out &lt;file&gt;: set output file\n&#34;
+help += &#34;\t--print: print words list\n&#34;
+help += &#34;\t--fill: fill blank space with all character\n&#34;
+help += &#34;\t--help: print this text\n&#34;
+help += &#34;\t--verbose: print some informations\n&#34;
+help += &#34;\t--save: save directly on file without save first on array. You can save time and memory, need for large dictionary\n\n&#34;
+help += &#34;Usage:\n&#34;
+help += &#34;\tpython3 dag.py &lt;min&gt; &lt;max&gt; [options value],... &lt;pattern&gt;\n\n&#34;
+help += &#34;Example:\n&#34;
+help += &#34;\tpython3 dag.py 6 10 --out list.txt --fill h@llo%\n\n&#34;
+help += &#34;Tips:\n&#34;
+help += &#34;\tmin must be at least the size of pattern\n&#34;
+help += &#34;\tmax must be at least as min\n&#34;
+#-----------------------------------------------
+
+alias_set = { &#34;@&#34;:&#34;lower&#34;, &#34;,&#34;:&#34;upper&#34;, &#34;%&#34;:&#34;digit&#34;, &#34;^&#34;:&#34;symbol&#34;, &#34;*&#34;:&#34;all_char&#34; } #translater symbols
+
+upper = [str(chr(i)) for i in range(65,91)]     #upper case char set
+lower = [str(chr(i)) for i in range(97,123)]    #lower case char set
+digit = [str(i) for i in range(0,10)]           #digit char set
+symbol = [str(chr(i)) for i in range(32,65)]    #symbol char set
+for i in range(91,97):
+    symbol.append(str(chr(i)))
+for i in range(123,127):
+    symbol.append(str(chr(i)))
+all_char = [str(chr(i)) for i in range(32,127)] #all_char char set
+
+def map(pattern):
+    &#34;&#34;&#34;Create a list in which link symbol with its position in pattern string
+
+    Parameters:
+        patter (str): Pattern. Ex, h@llo%
+
+    Returns:
+        alias (dict): Container of map. Ex, patter=h@llo% -&gt; alias=[ 1:&#34;@&#34;, 5:&#34;%&#34; ]
+    &#34;&#34;&#34;
+    alias = dict()
+    for i in range(len(pattern)):
+        if pattern[i] in alias_set:
+            alias[i] = pattern[i]
+    return alias
+
+def next_symbol(symbol, index):
+    &#34;&#34;&#34;Return char at index in char set associated with symbol
+
+    Parameters:
+        symbol (char): Symbol of char set
+        index (int): Index of char to return in char set
+
+    Returns:
+        char: Char at index in char set. Ex, return digit[3]
+    &#34;&#34;&#34;
+    return eval(alias_set[symbol]+&#34;[&#34;+str(index)+&#34;]&#34;)  
+
+def change(string, char, index):
+    &#34;&#34;&#34;Change a char in a string
+
+    Parameters:
+        string (str): String in which change a char
+        char (char): Char in what change
+        index (int): Index of char to change in string
+
+    Returns:
+        string: Modified string
+    &#34;&#34;&#34;
+    return string[:index]+char+string[index+1:]
+
+def alias_len(symbol):
+    &#34;&#34;&#34;Return lenght of a char set
+
+    Parameters:
+        symbol (char): Symbol of a char set
+
+    Returns:
+        int: lenght of char set associated with symbol
+    &#34;&#34;&#34;
+    return eval(&#34;len(&#34;+alias_set[symbol]+&#34;)&#34;)
+
+def create(alias, pattern, save=False, file_name=None):
+    &#34;&#34;&#34;Create a list of all word according with pattern and options
+
+    Parameters:
+        alias (dict): Container of mapping about symbols and their position in pattern
+        pattern (str): Pattern of words list
+        save (bool): If true, save directly on file
+                    (default False)
+        file_name (str): With save=True, file_ name of output file
+                    (default None)
+
+    Returns:
+        strings: List of words
+    &#34;&#34;&#34;
+    strings = []
+    for_exec = &#34;&#34;
+    change_exec = &#34;&#34;
+    #Open file
+    if save:
+        f = open(file_name, &#34;a&#34;)
+        
+    j = 1    #Used to compute how much tab put
+    #Setting a for for each symbol in pattern
+    for key in alias:
+        for_exec += &#34;for i&#34;+str(key)+&#34; in range(alias_len(alias[&#34;+str(key)+&#34;])):&#34;+(&#34;\n&#34;)+(&#34;\t&#34;*j)
+        change_exec += &#34;pattern = change(pattern, next_symbol(alias[&#34;+str(key)+&#34;], i&#34;+str(key)+&#34;), &#34;+str(key)+&#34;)\n&#34;+(&#34;\t&#34;*(len(alias)))
+        j += 1
+    
+    #If save, write on file, else add to strings array
+    if save:
+        change_exec += &#34;f.write(pattern+&#39;\\n&#39;)&#34;
+    else:
+        change_exec += &#34;strings.append(pattern)&#34;
+    for_exec += change_exec
+    #Execute code
+    exec(for_exec)
+    
+    #Close file
+    if save:
+        f.close()
+    return strings                   
+
+def set_params(params):
+    &#34;&#34;&#34;Set passed params (from shell)
+
+    Parameters:
+        params (dict): Dict to fill with passed params
+    &#34;&#34;&#34;
+    if &#34;--help&#34; in sys.argv or len(sys.argv)&lt;3:
+        print(help)
+        exit()
+    params[&#34;min&#34;] = sys.argv[1]
+    params[&#34;max&#34;] = sys.argv[2]
+    params[&#34;output_file&#34;] = sys.argv[sys.argv.index(&#34;--out&#34;)+1] if &#34;--out&#34; in sys.argv else False
+    params[&#34;fill&#34;] = True if &#34;--fill&#34; in sys.argv else False
+    params[&#34;patterns&#34;] = []
+    params[&#34;patterns&#34;].append(sys.argv[len(sys.argv)-1])
+    if &#34;--multiple&#34; in sys.argv:
+        for i in range(sys.argv.index(&#34;--multiple&#34;)+1, len(sys.argv)-1):
+            params[&#34;patterns&#34;].append(sys.argv[i])
+    params[&#34;print&#34;] = True if &#34;--print&#34; in sys.argv else False
+    params[&#34;save&#34;] = True if &#34;--save&#34; in sys.argv else False
+
+def save(file, word_lists):
+    &#34;&#34;&#34;Save words in file
+
+    Parameters:
+        file (str): File name of output file
+        strings (list): Words list to save
+    &#34;&#34;&#34;
+    if params[&#34;print&#34;]:
+        with open(file, &#34;a&#34;) as f:
+            for wl in word_lists:
+                for s in wl:
+                    f.write(s+&#34;\n&#34;)
+                    print(s)
+    else:
+        with open(file, &#34;a&#34;) as f:
+            for wl in word_lists:
+                for s in wl:
+                    f.write(s+&#34;\n&#34;)
+
+def shift(string, direction=&#39;l&#39;):
+    &#34;&#34;&#34;Shift a string
+
+    Parameters:
+        string (str): String to shift
+        direction (char): Shift to right (r) or to left (l)
+                            (default r)
+
+    Returns:
+        shifted (str): Shifted string
+    &#34;&#34;&#34;
+    if direction == &#39;r&#39;:
+        shifted = string[:len(string)-1]
+        shifted = string[len(string)-1] + shifted
+    elif direction == &#39;l&#39;:
+        shifted = string[1:len(string)]
+        shifted = shifted + string[0]
+    
+    return shifted
+
+def create_patterns(pattern, min, max, patterns):
+    &#34;&#34;&#34;If fill is set, create all patterns according with min-max size. Ex, 6 8 h@ll%-&gt;@h@ll%, h@ll%@, @@h@ll%, @h@ll%@, ...
+
+    Parameters:
+        patter (str): Pattern
+        min (int): Min size of pattern
+        max (int): Max size of pattern
+    &#34;&#34;&#34;
+
+    tmp = &#34;&#34; #actual pattern
+    #Loop for every size
+    for i in range(min, max+1):
+        #Create default pattern (ex, **h@ll%)
+        tmp = &#34;*&#34;*(i-len(pattern))
+        tmp += pattern
+        patterns.append(tmp)
+        #Then shift &#39;*&#39; to generate others (**h@ll%, *h@ll%*, h@ll%**)
+        for j in range(i-len(pattern)):
+            tmp = shift(tmp, &#39;l&#39;)
+            patterns.append(tmp)
+    #Handle groups (ex, [m;M]iami -&gt; miami, Miami)
+    &#34;&#34;&#34;
+    for p in patterns:
+        if &#34;[&#34; in p:
+            tmp = p[p.index(&#34;[&#34;), p.index[&#34;]&#34;]+1] #get group ([m,M])
+    &#34;&#34;&#34;
+
+def print_verbose(string):
+    &#34;&#34;&#34;Print some information for tracing. Enable by &#34;---verbose&#34; option
+
+        string (str): String to print
+    &#34;&#34;&#34;
+    if &#34;--verbose&#34; in sys.argv:
+        print(string)
+    else:
+        pass
+
+def print_progress(done, to_do, bar_size=10, done_symbol=&#34;#&#34;, to_do_symbol=&#34;.&#34;, caption=&#34;Progress: &#34;):
+    &#34;&#34;&#34;Print progress with a progress bar
+
+    Parameters:
+        done (int): number of jobs already done
+        to_do (int): total number of jobs to do
+        bar_size (int): lenght of progress bar
+        don_symbol (str): Symbol to show for number of done jobs
+        to_do_symbol (str): Symbol to show for number of remaining jobs
+        caption (str): String to print before progress
+    &#34;&#34;&#34;
+    perc = (done/to_do)*100
+    left = int((perc/100)*bar_size)
+    caption = Fore.YELLOW+caption+Style.RESET_ALL
+    str_fract = Fore.GREEN+str(i)+Fore.YELLOW+&#34;/&#34;+Fore.RED+str(to_do)+Style.RESET_ALL
+    str_bar = Fore.GREEN+done_symbol*left+Fore.RED+str(to_do_symbol*(bar_size-left))+Style.RESET_ALL
+    str_perc = Fore.YELLOW+&#34;{0:.2f}&#34;.format(perc)+&#34;%&#34;+Style.RESET_ALL
+    print(caption+str_fract+&#34; &#34;+str_bar+&#34; &#34;+str_perc)
+
+
+#---------Setting up environment-----------------------------------------------
+params = dict() #dict with passed params (--out, --fill, etc)
+set_params(params)  #set passed params
+
+try:
+    min = int(params[&#34;min&#34;]) #min size of words in words list
+except ValueError:
+    pass
+try:
+    max = int(params[&#34;max&#34;]) #max size of words in words list
+except ValueError:
+    pass
+pattern = params[&#34;patterns&#34;] #save passed pattern(s) (from shell)
+file_name = params[&#34;output_file&#34;] #save passed output file name
+just_save = params[&#34;save&#34;] #save directly on file, without save first on array
+fill = params[&#34;fill&#34;] #fill left char with *
+
+#Just to empty file_name
+if file_name:
+    open(file_name, &#34;w&#34;).close()
+#----------END-----------------------------------------------------------------
+
+#----------Fill pattern, create pattern adding &#39;*&#39; to reach sizes min,max------
+alias = dict() #dict of symbols and their position in pattern
+patterns = []
+if fill:
+    print_verbose(&#34;Creating patterns...&#34;)
+    for p in pattern:
+        create_patterns(p, min, max, patterns)
+    print_verbose(&#34;Done!&#34;)
+    print_verbose(patterns)
+else:
+    for p in pattern:
+        patterns.append(p)
+word_lists = []
+print_verbose(&#34;Creating words lists...&#34;)
+#----------END-----------------------------------------------------------------
+
+#----------Evaluate patters, create combinations changing symbol with char-set-
+i = 1
+for p in patterns:
+    print_progress(i, len(patterns), caption=&#34;&#34;)
+    i = i+1
+    alias = map(p)
+    print_verbose(&#34;\tcreating &#34;+p)
+    word_lists.append(create(alias, p, just_save, file_name)) #create words list
+    print_verbose(&#34;\tdone&#34;)
+print_verbose(&#34;Done!&#34;)
+#---------END------------------------------------------------------------------
+
+#----------Save on file--------------------------------------------------------
+#Save or just print words list
+if not just_save:
+    if file_name:
+        save(file_name, word_lists)
+
+if not file_name:
+    for wl in word_lists:
+        for s in wl:
+            print(s)
+#----------END-----------------------------------------------------------------</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="dag.alias_len"><code class="name flex">
+<span>def <span class="ident">alias_len</span></span>(<span>symbol)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return lenght of a char set</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>symbol</code></strong> :&ensp;<code>char</code></dt>
+<dd>Symbol of a char set</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>int</code></strong></dt>
+<dd>lenght of char set associated with symbol</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def alias_len(symbol):
+    &#34;&#34;&#34;Return lenght of a char set
+
+    Parameters:
+        symbol (char): Symbol of a char set
+
+    Returns:
+        int: lenght of char set associated with symbol
+    &#34;&#34;&#34;
+    return eval(&#34;len(&#34;+alias_set[symbol]+&#34;)&#34;)</code></pre>
+</details>
+</dd>
+<dt id="dag.change"><code class="name flex">
+<span>def <span class="ident">change</span></span>(<span>string, char, index)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Change a char in a string</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>string</code></strong> :&ensp;<code>str</code></dt>
+<dd>String in which change a char</dd>
+<dt><strong><code>char</code></strong> :&ensp;<code>char</code></dt>
+<dd>Char in what change</dd>
+<dt><strong><code>index</code></strong> :&ensp;<code>int</code></dt>
+<dd>Index of char to change in string</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>string</code></strong></dt>
+<dd>Modified string</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def change(string, char, index):
+    &#34;&#34;&#34;Change a char in a string
+
+    Parameters:
+        string (str): String in which change a char
+        char (char): Char in what change
+        index (int): Index of char to change in string
+
+    Returns:
+        string: Modified string
+    &#34;&#34;&#34;
+    return string[:index]+char+string[index+1:]</code></pre>
+</details>
+</dd>
+<dt id="dag.create"><code class="name flex">
+<span>def <span class="ident">create</span></span>(<span>alias, pattern, save=False, file_name=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a list of all word according with pattern and options</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>alias</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Container of mapping about symbols and their position in pattern</dd>
+<dt><strong><code>pattern</code></strong> :&ensp;<code>str</code></dt>
+<dd>Pattern of words list</dd>
+<dt><strong><a title="dag.save" href="#dag.save"><code>save()</code></a></strong> :&ensp;<code>bool</code></dt>
+<dd>If true, save directly on file
+(default False)</dd>
+<dt><strong><code>file_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>With save=True, file_ name of output file
+(default None)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>strings</code></strong></dt>
+<dd>List of words</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def create(alias, pattern, save=False, file_name=None):
+    &#34;&#34;&#34;Create a list of all word according with pattern and options
+
+    Parameters:
+        alias (dict): Container of mapping about symbols and their position in pattern
+        pattern (str): Pattern of words list
+        save (bool): If true, save directly on file
+                    (default False)
+        file_name (str): With save=True, file_ name of output file
+                    (default None)
+
+    Returns:
+        strings: List of words
+    &#34;&#34;&#34;
+    strings = []
+    for_exec = &#34;&#34;
+    change_exec = &#34;&#34;
+    #Open file
+    if save:
+        f = open(file_name, &#34;a&#34;)
+        
+    j = 1    #Used to compute how much tab put
+    #Setting a for for each symbol in pattern
+    for key in alias:
+        for_exec += &#34;for i&#34;+str(key)+&#34; in range(alias_len(alias[&#34;+str(key)+&#34;])):&#34;+(&#34;\n&#34;)+(&#34;\t&#34;*j)
+        change_exec += &#34;pattern = change(pattern, next_symbol(alias[&#34;+str(key)+&#34;], i&#34;+str(key)+&#34;), &#34;+str(key)+&#34;)\n&#34;+(&#34;\t&#34;*(len(alias)))
+        j += 1
+    
+    #If save, write on file, else add to strings array
+    if save:
+        change_exec += &#34;f.write(pattern+&#39;\\n&#39;)&#34;
+    else:
+        change_exec += &#34;strings.append(pattern)&#34;
+    for_exec += change_exec
+    #Execute code
+    exec(for_exec)
+    
+    #Close file
+    if save:
+        f.close()
+    return strings                   </code></pre>
+</details>
+</dd>
+<dt id="dag.create_patterns"><code class="name flex">
+<span>def <span class="ident">create_patterns</span></span>(<span>pattern, min, max, patterns)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>If fill is set, create all patterns according with min-max size. Ex, 6 8 h@ll%-&gt;@h@ll%, h@ll%@, @@h@ll%, @h@ll%@, &hellip;</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>patter</code></strong> :&ensp;<code>str</code></dt>
+<dd>Pattern</dd>
+<dt><strong><code>min</code></strong> :&ensp;<code>int</code></dt>
+<dd>Min size of pattern</dd>
+<dt><strong><code>max</code></strong> :&ensp;<code>int</code></dt>
+<dd>Max size of pattern</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def create_patterns(pattern, min, max, patterns):
+    &#34;&#34;&#34;If fill is set, create all patterns according with min-max size. Ex, 6 8 h@ll%-&gt;@h@ll%, h@ll%@, @@h@ll%, @h@ll%@, ...
+
+    Parameters:
+        patter (str): Pattern
+        min (int): Min size of pattern
+        max (int): Max size of pattern
+    &#34;&#34;&#34;
+
+    tmp = &#34;&#34; #actual pattern
+    #Loop for every size
+    for i in range(min, max+1):
+        #Create default pattern (ex, **h@ll%)
+        tmp = &#34;*&#34;*(i-len(pattern))
+        tmp += pattern
+        patterns.append(tmp)
+        #Then shift &#39;*&#39; to generate others (**h@ll%, *h@ll%*, h@ll%**)
+        for j in range(i-len(pattern)):
+            tmp = shift(tmp, &#39;l&#39;)
+            patterns.append(tmp)
+    #Handle groups (ex, [m;M]iami -&gt; miami, Miami)
+    &#34;&#34;&#34;
+    for p in patterns:
+        if &#34;[&#34; in p:
+            tmp = p[p.index(&#34;[&#34;), p.index[&#34;]&#34;]+1] #get group ([m,M])
+    &#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+<dt id="dag.map"><code class="name flex">
+<span>def <span class="ident">map</span></span>(<span>pattern)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a list in which link symbol with its position in pattern string</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>patter</code></strong> :&ensp;<code>str</code></dt>
+<dd>Pattern. Ex, h@llo%</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>alias</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Container of map. Ex, patter=h@llo% -&gt; alias=[ 1:"@", 5:"%" ]</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def map(pattern):
+    &#34;&#34;&#34;Create a list in which link symbol with its position in pattern string
+
+    Parameters:
+        patter (str): Pattern. Ex, h@llo%
+
+    Returns:
+        alias (dict): Container of map. Ex, patter=h@llo% -&gt; alias=[ 1:&#34;@&#34;, 5:&#34;%&#34; ]
+    &#34;&#34;&#34;
+    alias = dict()
+    for i in range(len(pattern)):
+        if pattern[i] in alias_set:
+            alias[i] = pattern[i]
+    return alias</code></pre>
+</details>
+</dd>
+<dt id="dag.next_symbol"><code class="name flex">
+<span>def <span class="ident">next_symbol</span></span>(<span>symbol, index)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Return char at index in char set associated with symbol</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>symbol</code></strong> :&ensp;<code>char</code></dt>
+<dd>Symbol of char set</dd>
+<dt><strong><code>index</code></strong> :&ensp;<code>int</code></dt>
+<dd>Index of char to return in char set</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>char</code></strong></dt>
+<dd>Char at index in char set. Ex, return digit[3]</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def next_symbol(symbol, index):
+    &#34;&#34;&#34;Return char at index in char set associated with symbol
+
+    Parameters:
+        symbol (char): Symbol of char set
+        index (int): Index of char to return in char set
+
+    Returns:
+        char: Char at index in char set. Ex, return digit[3]
+    &#34;&#34;&#34;
+    return eval(alias_set[symbol]+&#34;[&#34;+str(index)+&#34;]&#34;)  </code></pre>
+</details>
+</dd>
+<dt id="dag.print_progress"><code class="name flex">
+<span>def <span class="ident">print_progress</span></span>(<span>done, to_do, bar_size=10, done_symbol='#', to_do_symbol='.', caption='Progress: ')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Print progress with a progress bar</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>done</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of jobs already done</dd>
+<dt><strong><code>to_do</code></strong> :&ensp;<code>int</code></dt>
+<dd>total number of jobs to do</dd>
+<dt><strong><code>bar_size</code></strong> :&ensp;<code>int</code></dt>
+<dd>lenght of progress bar</dd>
+<dt><strong><code>don_symbol</code></strong> :&ensp;<code>str</code></dt>
+<dd>Symbol to show for number of done jobs</dd>
+<dt><strong><code>to_do_symbol</code></strong> :&ensp;<code>str</code></dt>
+<dd>Symbol to show for number of remaining jobs</dd>
+<dt><strong><code>caption</code></strong> :&ensp;<code>str</code></dt>
+<dd>String to print before progress</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def print_progress(done, to_do, bar_size=10, done_symbol=&#34;#&#34;, to_do_symbol=&#34;.&#34;, caption=&#34;Progress: &#34;):
+    &#34;&#34;&#34;Print progress with a progress bar
+
+    Parameters:
+        done (int): number of jobs already done
+        to_do (int): total number of jobs to do
+        bar_size (int): lenght of progress bar
+        don_symbol (str): Symbol to show for number of done jobs
+        to_do_symbol (str): Symbol to show for number of remaining jobs
+        caption (str): String to print before progress
+    &#34;&#34;&#34;
+    perc = (done/to_do)*100
+    left = int((perc/100)*bar_size)
+    caption = Fore.YELLOW+caption+Style.RESET_ALL
+    str_fract = Fore.GREEN+str(i)+Fore.YELLOW+&#34;/&#34;+Fore.RED+str(to_do)+Style.RESET_ALL
+    str_bar = Fore.GREEN+done_symbol*left+Fore.RED+str(to_do_symbol*(bar_size-left))+Style.RESET_ALL
+    str_perc = Fore.YELLOW+&#34;{0:.2f}&#34;.format(perc)+&#34;%&#34;+Style.RESET_ALL
+    print(caption+str_fract+&#34; &#34;+str_bar+&#34; &#34;+str_perc)</code></pre>
+</details>
+</dd>
+<dt id="dag.print_verbose"><code class="name flex">
+<span>def <span class="ident">print_verbose</span></span>(<span>string)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Print some information for tracing. Enable by "&mdash;verbose" option</p>
+<p>string (str): String to print</p></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def print_verbose(string):
+    &#34;&#34;&#34;Print some information for tracing. Enable by &#34;---verbose&#34; option
+
+        string (str): String to print
+    &#34;&#34;&#34;
+    if &#34;--verbose&#34; in sys.argv:
+        print(string)
+    else:
+        pass</code></pre>
+</details>
+</dd>
+<dt id="dag.save"><code class="name flex">
+<span>def <span class="ident">save</span></span>(<span>file, word_lists)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Save words in file</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>file</code></strong> :&ensp;<code>str</code></dt>
+<dd>File name of output file</dd>
+<dt><strong><code>strings</code></strong> :&ensp;<code>list</code></dt>
+<dd>Words list to save</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def save(file, word_lists):
+    &#34;&#34;&#34;Save words in file
+
+    Parameters:
+        file (str): File name of output file
+        strings (list): Words list to save
+    &#34;&#34;&#34;
+    if params[&#34;print&#34;]:
+        with open(file, &#34;a&#34;) as f:
+            for wl in word_lists:
+                for s in wl:
+                    f.write(s+&#34;\n&#34;)
+                    print(s)
+    else:
+        with open(file, &#34;a&#34;) as f:
+            for wl in word_lists:
+                for s in wl:
+                    f.write(s+&#34;\n&#34;)</code></pre>
+</details>
+</dd>
+<dt id="dag.set_params"><code class="name flex">
+<span>def <span class="ident">set_params</span></span>(<span>params)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Set passed params (from shell)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dict to fill with passed params</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def set_params(params):
+    &#34;&#34;&#34;Set passed params (from shell)
+
+    Parameters:
+        params (dict): Dict to fill with passed params
+    &#34;&#34;&#34;
+    if &#34;--help&#34; in sys.argv or len(sys.argv)&lt;3:
+        print(help)
+        exit()
+    params[&#34;min&#34;] = sys.argv[1]
+    params[&#34;max&#34;] = sys.argv[2]
+    params[&#34;output_file&#34;] = sys.argv[sys.argv.index(&#34;--out&#34;)+1] if &#34;--out&#34; in sys.argv else False
+    params[&#34;fill&#34;] = True if &#34;--fill&#34; in sys.argv else False
+    params[&#34;patterns&#34;] = []
+    params[&#34;patterns&#34;].append(sys.argv[len(sys.argv)-1])
+    if &#34;--multiple&#34; in sys.argv:
+        for i in range(sys.argv.index(&#34;--multiple&#34;)+1, len(sys.argv)-1):
+            params[&#34;patterns&#34;].append(sys.argv[i])
+    params[&#34;print&#34;] = True if &#34;--print&#34; in sys.argv else False
+    params[&#34;save&#34;] = True if &#34;--save&#34; in sys.argv else False</code></pre>
+</details>
+</dd>
+<dt id="dag.shift"><code class="name flex">
+<span>def <span class="ident">shift</span></span>(<span>string, direction='l')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Shift a string</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>string</code></strong> :&ensp;<code>str</code></dt>
+<dd>String to shift</dd>
+<dt><strong><code>direction</code></strong> :&ensp;<code>char</code></dt>
+<dd>Shift to right (r) or to left (l)
+(default r)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>shifted</code></strong> :&ensp;<code>str</code></dt>
+<dd>Shifted string</dd>
+</dl></section>
+<details class="source">
+<summary>Source code</summary>
+<pre><code class="python">def shift(string, direction=&#39;l&#39;):
+    &#34;&#34;&#34;Shift a string
+
+    Parameters:
+        string (str): String to shift
+        direction (char): Shift to right (r) or to left (l)
+                            (default r)
+
+    Returns:
+        shifted (str): Shifted string
+    &#34;&#34;&#34;
+    if direction == &#39;r&#39;:
+        shifted = string[:len(string)-1]
+        shifted = string[len(string)-1] + shifted
+    elif direction == &#39;l&#39;:
+        shifted = string[1:len(string)]
+        shifted = shifted + string[0]
+    
+    return shifted</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="dag.alias_len" href="#dag.alias_len">alias_len</a></code></li>
+<li><code><a title="dag.change" href="#dag.change">change</a></code></li>
+<li><code><a title="dag.create" href="#dag.create">create</a></code></li>
+<li><code><a title="dag.create_patterns" href="#dag.create_patterns">create_patterns</a></code></li>
+<li><code><a title="dag.map" href="#dag.map">map</a></code></li>
+<li><code><a title="dag.next_symbol" href="#dag.next_symbol">next_symbol</a></code></li>
+<li><code><a title="dag.print_progress" href="#dag.print_progress">print_progress</a></code></li>
+<li><code><a title="dag.print_verbose" href="#dag.print_verbose">print_verbose</a></code></li>
+<li><code><a title="dag.save" href="#dag.save">save</a></code></li>
+<li><code><a title="dag.set_params" href="#dag.set_params">set_params</a></code></li>
+<li><code><a title="dag.shift" href="#dag.shift">shift</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.6.3</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
